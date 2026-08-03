@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - VulnLab</title>
+<style>
+  :root {
+    --bg-main: #0d1117;
+    --bg-card: #161b22;
+    --border-color: #30363d;
+    --text-main: #c9d1d9;
+    --accent-blue: #58a6ff;
+    --accent-green: #238636;
+    --accent-green-hover: #2ea043;
+  }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .container {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+  }
+
+  h2 {
+    font-size: 20px;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #8b949e;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+  }
+
+  .btn {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--accent-green);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+
+  .btn:hover {
+    background-color: var(--accent-green-hover);
+  }
+
+  .links {
+    margin: 15px 0;
+    text-align: right;
+    font-size: 13px;
+  }
+
+  .links a {
+    color: var(--accent-blue);
+    text-decoration: none;
+  }
+
+  .links a:hover {
+    text-decoration: underline;
+  }
+
+  .error-msg {
+    color: #f85149;
+    font-size: 13px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Log in System</h2>
+    
+    {% if error %}
+      <div class="error-msg">{{ error }}</div>
+    {% endif %}
+
+    <form action="/sqlinjection" method="POST">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" required>
+      </div>
+
+      <div class="links">
+        <a href="/register">Create account</a>
+      </div>
+
+      <button type="submit" class="btn">Log in</button>
+    </form>
+  </div>
+
+</body>
+</html>
