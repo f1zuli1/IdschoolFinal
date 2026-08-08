@@ -217,7 +217,7 @@
 <header>
   <div class="brand">Meridian &amp; Co.</div>
   <nav>
-    <a href="/xss">Shop</a>
+    <a href="/xss">Home</a>
     <a href="#">Collections</a>
     <a href="#">Account</a>
     <a href="#">Cart (0)</a>
@@ -269,12 +269,12 @@
 
     <div class="review-form">
       <h3>Leave a review</h3>
-      <form method="POST">
+      <form method="POST" autocomplete="off">
         <label for="author">Name</label>
-        <input type="text" id="author" name="author" placeholder="Your name">
+        <input type="text" id="author" name="author" placeholder="Your name" autocomplete="off">
 
         <label for="comment">Review</label>
-        <textarea id="comment" name="comment" placeholder="Share your thoughts on this product"></textarea>
+        <textarea id="comment" name="comment" placeholder="Share your thoughts on this product" autocomplete="off"></textarea>
 
         <button class="btn-submit" type="submit">Post review</button>
       </form>
