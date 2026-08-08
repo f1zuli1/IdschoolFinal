@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
+<title>{% if session.get('role') == 'admin' %}Admin Panel{% else %}Dashboard{% endif %}</title>
 <style>
   body {
     margin: 0;
@@ -159,25 +159,27 @@
 </head>
 <body>
 
-<aside class="sidebar">
+  <aside class="sidebar">
     <div class="sidebar-header">
-      Vuln
+      {% if session.get('role') == 'admin' %}
+        Admin Panel
+      {% else %}
+        Dashboard
+      {% endif %}
     </div>
     <ul class="nav-links">
       <li><a class="active" onclick="switchTab('dashboard', this)">Dashboard</a></li>
       
-      <!-- YALNIZ ADMINLƏR GÖRMƏLİDİR -->
       {% if session.get('role') == 'admin' %}
       <li><a onclick="switchTab('users', this)">Users (DB)</a></li>
       {% endif %}
-      
     </ul>
     <a href="/sqlinjection" class="logout-btn">Log out</a>
   </aside>
 
   <main class="main-content">
     <div class="header">
-      <h1>Welcome</h1>
+      <h1>Welcome, {{ username }}</h1>
     </div>
 
     <div id="dashboard" class="tab-section active">
@@ -195,7 +197,7 @@
 
     <div id="users" class="tab-section">
       <div class="data-section">
-        <div class="data-header">Database Records (database.db)</div>
+        <div class="data-header">Database Records</div>
         <table>
           <thead>
             <tr>
@@ -227,12 +229,13 @@
   </main>
 
   <script>
-    function switchTab(tabId, element) {
-      document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
+    const switchTab = (tabId, el) => {
+      document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
-      document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
-      element.classList.add('active');
-    }
+      
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      el.classList.add('active');
+    };
   </script>
 </body>
 </html>
