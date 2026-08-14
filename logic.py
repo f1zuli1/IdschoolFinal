@@ -11,7 +11,7 @@ def init_schema():
     """
     Yalnız cədvəlləri yaradır. Idempotent-dir (istənilən qədər
     çağırıla bilər, data-ya heç vaxt təsir etmir). App hər başlayanda
-    bunu çağırmaq təhlükəsizdir.
+    bunu çağırmaq təhlükəsizdir.pyth
     """
     conn = get_connection()
     cursor = conn.cursor()
@@ -24,24 +24,6 @@ def init_schema():
             role TEXT NOT NULL DEFAULT 'user'
         )
     ''')
-
-    # username üzrə axtarışları sürətləndirmək üçün indeks
-    cursor.execute('''
-        CREATE INDEX IF NOT EXISTS idx_users_username ON users(username)
-    ''')
-
-    # Stored XSS labı üçün reviews cədvəli
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS reviews (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            author TEXT,
-            text TEXT
-        )
-    ''')
-
-    conn.commit()
-    conn.close()
-
 
 def seed_admin():
     """

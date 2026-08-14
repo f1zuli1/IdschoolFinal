@@ -105,22 +105,34 @@ def xss_overview():
 # ----------------------------------------------------------------------
 @app.route('/xss/stored', methods=['GET', 'POST'])
 def xss_stored():
-    conn = get_db_connection()
-
     if request.method == 'POST':
         author = request.form.get('author', 'Anonymous')
         comment = request.form['comment']
-        conn.execute("INSERT INTO reviews (author, text) VALUES (?, ?)", (author, comment))
-        conn.commit()
 
-    rows = conn.execute("SELECT author, text FROM reviews ORDER BY id DESC").fetchall()
-    conn.close()
+        # Database-ə yazılmır, yalnız növbəti GET request-i üçün saxlanılır
+        session['xss_comment'] = {
+            'author': author,
+            'text': comment
+        }
 
-    comments = [{'author': Markup(row['author']), 'text': Markup(row['text'])} for row in rows]
-    resp = make_response(render_template('xss_stored.html', comments=comments))
+        return redirect(url_for('xss_stored'))
+
+    comments = []
+
+    if 'xss_comment' in session:
+        comment = session.pop('xss_comment')
+
+        comments = [{
+            'author': Markup(comment['author']),
+            'text': Markup(comment['text'])
+        }]
+
+    resp = make_response(
+        render_template('xss_stored.html', comments=comments)
+    )
     resp.set_cookie('coockie', 'asdf1234', httponly=False)
-    return resp
 
+    return resp
 
 # ----------------------------------------------------------------------
 # Lab: search page
