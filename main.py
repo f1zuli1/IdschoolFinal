@@ -130,7 +130,7 @@ def xss_stored():
     resp = make_response(
         render_template('xss_stored.html', comments=comments)
     )
-    resp.set_cookie('coockie', 'asdf1234', httponly=False)
+    resp.set_cookie('cookie', 'asdf1234', httponly=False)
 
     return resp
 
